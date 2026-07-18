@@ -1,0 +1,23 @@
+{
+  "name": "@pixypuala/block-a11y-pattern-lab",
+  "version": "0.1.0",
+  "description": "A lab of accessibility-audited, framework-agnostic UI patterns for WordPress blocks and beyond, built to WAI-ARIA authoring practices and verified with axe.",
+  "license": "GPL-2.0-or-later",
+  "type": "module",
+  "packageManager": "pnpm@9.0.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist", "src"],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.0",
+    "jsdom": "^25.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

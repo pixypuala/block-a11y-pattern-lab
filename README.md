@@ -1,5 +1,33 @@
 # Block Accessibility Pattern Lab
 
+## Getting started
+
+Requires Node 20+ and pnpm (`corepack enable`).
+
+```bash
+pnpm install
+pnpm test        # 8 tests: ARIA state, keyboard activation, lifecycle, axe scan
+pnpm build       # emit dist/ (ESM + .d.ts)
+```
+
+## What is built today
+
+A framework-agnostic, WAI-ARIA-correct **Disclosure** pattern (the basis of accordions and
+"read more" toggles):
+
+- `createDisclosure` (`src/disclosure.ts`) progressively enhances semantic markup: `aria-expanded`
+  + `aria-controls` wiring, content show/hide, and — when the trigger is not a native `<button>` —
+  button semantics with Space/Enter activation. Supports open/close/toggle and destroy().
+- Tests cover ARIA state, click and keyboard activation, the non-button path, lifecycle, error
+  handling, and an axe-core WCAG A/AA scan.
+
+This is the extraction of the accessible-pattern work from the Accessible Frontend Design System
+Lab; more patterns (Tabs, Menu button, Dialog) land here over time.
+
+## Documented boundary (not yet built)
+
+Additional patterns and the WordPress block.json wrappers that ship these as editor blocks.
+
 > **Document status:** implementation-complete engineering blueprint, not a claim that the software has already been built.
 
 A testable reference library for accessible WordPress editor and frontend interaction patterns, with honest automated and manual evidence.
