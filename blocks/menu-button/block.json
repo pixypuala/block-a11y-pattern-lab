@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pixy-a11y/menu-button",
+  "version": "0.1.0",
+  "title": "Accessible Menu Button",
+  "category": "design",
+  "description": "A WAI-ARIA menu button that opens a keyboard-navigable menu of actions with roving focus.",
+  "keywords": ["accessibility", "a11y", "aria", "menu", "menu button"],
+  "textdomain": "block-a11y-pattern-lab",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "supports": {
+    "html": false
+  }
+}

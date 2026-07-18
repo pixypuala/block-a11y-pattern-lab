@@ -7,7 +7,7 @@
   "packageManager": "pnpm@9.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist", "src"],
+  "files": ["dist", "src", "blocks"],
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "test": "vitest run",

@@ -6,13 +6,13 @@ Requires Node 20+ and pnpm (`corepack enable`).
 
 ```bash
 pnpm install
-pnpm test        # 18 tests: ARIA state, keyboard activation, lifecycle, axe scan
+pnpm test        # 47 tests: ARIA state, keyboard activation, lifecycle, axe scan, block metadata
 pnpm build       # emit dist/ (ESM + .d.ts)
 ```
 
 ## What is built today
 
-Two framework-agnostic, WAI-ARIA-correct patterns:
+Four framework-agnostic, WAI-ARIA-correct patterns:
 
 - **Disclosure** — `createDisclosure` (`src/disclosure.ts`), the basis of accordions and
   "read more" toggles. Progressively enhances semantic markup: `aria-expanded` + `aria-controls`
@@ -21,16 +21,29 @@ Two framework-agnostic, WAI-ARIA-correct patterns:
 - **Tabs** — `createTabs` (`src/tabs.ts`), the APG Tabs pattern. Wires `role="tablist"`/`tab`/
   `tabpanel`, `aria-controls`/`aria-labelledby`, and `aria-selected`; applies roving tabindex and
   automatic activation on click, Arrow (wrapping), Home, and End. Supports select(index) and destroy().
+- **Menu button** — `createMenuButton` (`src/menu-button.ts`), the APG Menu Button pattern. Wires
+  `aria-haspopup`/`aria-expanded`/`aria-controls` and `role="menu"`/`menuitem`; opens to the first
+  item on Enter/Space/Down and the last on Up; moves roving focus with Arrow (wrapping)/Home/End;
+  Escape restores focus to the trigger; Tab and outside clicks dismiss. Supports open/close/toggle
+  and destroy().
+- **Dialog** — `createDialog` (`src/dialog.ts`), the APG Modal Dialog pattern. Wires `role="dialog"`,
+  `aria-modal="true"`, and `aria-labelledby`; moves focus into the dialog on open and restores it to
+  the opener on close; traps Tab/Shift+Tab within the surface; Escape dismisses. Supports open/close
+  and destroy().
 
-Tests cover ARIA state, click and keyboard activation, roving tabindex, lifecycle, error handling,
-and a per-pattern axe-core WCAG A/AA scan.
+Each pattern ships a WordPress `block.json` metadata wrapper under `blocks/` (schema-pinned
+`apiVersion`, namespaced `name`, `title`, `category`, and `editorScript`/`viewScript` handles) so the
+patterns register as editor blocks.
 
-This is the extraction of the accessible-pattern work from the Accessible Frontend Design System
-Lab; more patterns (Menu button, Dialog) land here over time.
+Tests cover ARIA state, click and keyboard activation, roving tabindex, focus trapping, lifecycle,
+error handling, a per-pattern axe-core WCAG A/AA scan, and block-metadata validation.
+
+This is the extraction of the accessible-pattern work from the Accessible Frontend Design System Lab.
 
 ## Documented boundary (not yet built)
 
-Additional patterns and the WordPress block.json wrappers that ship these as editor blocks.
+The editor-side block implementations (edit/save components and bundled `view.js` runtime that the
+`block.json` handles reference) and additional patterns beyond the four above.
 
 > **Document status:** implementation-complete engineering blueprint, not a claim that the software has already been built.
 

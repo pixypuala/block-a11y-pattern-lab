@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pixy-a11y/disclosure",
+  "version": "0.1.0",
+  "title": "Accessible Disclosure",
+  "category": "design",
+  "description": "A WAI-ARIA disclosure region toggled by an accessible button, the basis of accordions and \"read more\" toggles.",
+  "keywords": ["accessibility", "a11y", "aria", "disclosure", "toggle"],
+  "textdomain": "block-a11y-pattern-lab",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "supports": {
+    "html": false
+  }
+}

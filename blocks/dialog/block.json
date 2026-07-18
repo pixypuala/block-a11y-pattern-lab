@@ -1,0 +1,16 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "pixy-a11y/dialog",
+  "version": "0.1.0",
+  "title": "Accessible Dialog",
+  "category": "design",
+  "description": "A WAI-ARIA modal dialog with a focus trap, Escape to dismiss, and focus restoration to the opener.",
+  "keywords": ["accessibility", "a11y", "aria", "dialog", "modal"],
+  "textdomain": "block-a11y-pattern-lab",
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "supports": {
+    "html": false
+  }
+}
