@@ -6,23 +6,27 @@ Requires Node 20+ and pnpm (`corepack enable`).
 
 ```bash
 pnpm install
-pnpm test        # 8 tests: ARIA state, keyboard activation, lifecycle, axe scan
+pnpm test        # 18 tests: ARIA state, keyboard activation, lifecycle, axe scan
 pnpm build       # emit dist/ (ESM + .d.ts)
 ```
 
 ## What is built today
 
-A framework-agnostic, WAI-ARIA-correct **Disclosure** pattern (the basis of accordions and
-"read more" toggles):
+Two framework-agnostic, WAI-ARIA-correct patterns:
 
-- `createDisclosure` (`src/disclosure.ts`) progressively enhances semantic markup: `aria-expanded`
-  + `aria-controls` wiring, content show/hide, and — when the trigger is not a native `<button>` —
-  button semantics with Space/Enter activation. Supports open/close/toggle and destroy().
-- Tests cover ARIA state, click and keyboard activation, the non-button path, lifecycle, error
-  handling, and an axe-core WCAG A/AA scan.
+- **Disclosure** — `createDisclosure` (`src/disclosure.ts`), the basis of accordions and
+  "read more" toggles. Progressively enhances semantic markup: `aria-expanded` + `aria-controls`
+  wiring, content show/hide, and — when the trigger is not a native `<button>` — button semantics
+  with Space/Enter activation. Supports open/close/toggle and destroy().
+- **Tabs** — `createTabs` (`src/tabs.ts`), the APG Tabs pattern. Wires `role="tablist"`/`tab`/
+  `tabpanel`, `aria-controls`/`aria-labelledby`, and `aria-selected`; applies roving tabindex and
+  automatic activation on click, Arrow (wrapping), Home, and End. Supports select(index) and destroy().
+
+Tests cover ARIA state, click and keyboard activation, roving tabindex, lifecycle, error handling,
+and a per-pattern axe-core WCAG A/AA scan.
 
 This is the extraction of the accessible-pattern work from the Accessible Frontend Design System
-Lab; more patterns (Tabs, Menu button, Dialog) land here over time.
+Lab; more patterns (Menu button, Dialog) land here over time.
 
 ## Documented boundary (not yet built)
 
