@@ -7,14 +7,24 @@
   "packageManager": "pnpm@9.0.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist", "src", "blocks"],
+  "files": [
+    "dist",
+    "src",
+    "blocks"
+  ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "wp-scripts build --webpack-src-dir=blocks --output-path=build",
+    "build:lib": "tsc -p tsconfig.build.json",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/react": "^18.3.31",
+    "@wordpress/block-editor": "^16.0.0",
+    "@wordpress/blocks": "^15.24.0",
+    "@wordpress/i18n": "^6.24.0",
+    "@wordpress/scripts": "^33.0.0",
     "axe-core": "^4.10.0",
     "jsdom": "^25.0.0",
     "typescript": "^5.6.0",

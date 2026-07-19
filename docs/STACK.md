@@ -12,3 +12,6 @@ test-unit: pnpm exec vitest run
 - Language: TypeScript (strict), ESM.
 - Test: vitest + jsdom + axe-core.
 - Package manager: pnpm (via `corepack enable`).
+- Blocks build: `pnpm build` (`@wordpress/scripts`, `blocks/` → `build/`). Run in CI and locally; it
+  is not a pre-push gate line because its bundler output is verified by CI rather than the log scan.
+- Library build: `pnpm build:lib` (`tsc` → `dist/`).

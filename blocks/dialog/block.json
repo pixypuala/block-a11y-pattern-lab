@@ -8,6 +8,12 @@
   "description": "A WAI-ARIA modal dialog with a focus trap, Escape to dismiss, and focus restoration to the opener.",
   "keywords": ["accessibility", "a11y", "aria", "dialog", "modal"],
   "textdomain": "block-a11y-pattern-lab",
+  "attributes": {
+    "triggerLabel": { "type": "string", "default": "Open dialog" },
+    "title": { "type": "string", "default": "Confirm action" },
+    "body": { "type": "string", "default": "Dialog body content." },
+    "closeLabel": { "type": "string", "default": "Close" }
+  },
   "editorScript": "file:./index.js",
   "viewScript": "file:./view.js",
   "supports": {

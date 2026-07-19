@@ -8,6 +8,10 @@
   "description": "A WAI-ARIA disclosure region toggled by an accessible button, the basis of accordions and \"read more\" toggles.",
   "keywords": ["accessibility", "a11y", "aria", "disclosure", "toggle"],
   "textdomain": "block-a11y-pattern-lab",
+  "attributes": {
+    "triggerLabel": { "type": "string", "default": "Show details" },
+    "content": { "type": "string", "default": "Details revealed by the disclosure toggle." }
+  },
   "editorScript": "file:./index.js",
   "viewScript": "file:./view.js",
   "supports": {

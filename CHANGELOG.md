@@ -16,7 +16,13 @@ to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Accessible WAI-ARIA Dialog pattern (createDialog): dialog role, aria-modal, aria-labelledby,
   focus trap over Tab/Shift+Tab, Escape to dismiss, and focus restoration to the opener.
 - WordPress block.json wrappers under blocks/ registering each pattern as an editor block
-  (apiVersion, namespaced name, title, category, editorScript/viewScript handles).
-- 47 tests (vitest + jsdom) including per-pattern axe-core WCAG A/AA scans and block-metadata
-  validation; strict TypeScript.
-- CI on Node 20 and 22 via pnpm/corepack.
+  (apiVersion, namespaced name, title, category, editable attributes, editorScript/viewScript handles).
+- Editor and frontend runtime for each block: an edit.tsx editor component, a save.tsx that emits the
+  semantic markup, and a view.ts that instantiates the matching create* pattern so the shipped block
+  wires the ARIA behaviour on the published page.
+- @wordpress/scripts build compiling the four blocks to build/ (`pnpm build`); the library dist build
+  moved to `pnpm build:lib`. A local type declaration supplies the @wordpress/block-editor surface the
+  package no longer ships.
+- 55 tests (vitest + jsdom) including per-pattern axe-core WCAG A/AA scans, block-metadata validation,
+  and script-handle/attribute coherence checks; strict TypeScript.
+- CI on Node 20 and 22 via pnpm/corepack, now including the block build.

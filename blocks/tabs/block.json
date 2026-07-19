@@ -8,6 +8,12 @@
   "description": "A WAI-ARIA tabs widget with roving tabindex and Arrow/Home/End keyboard navigation.",
   "keywords": ["accessibility", "a11y", "aria", "tabs", "tablist"],
   "textdomain": "block-a11y-pattern-lab",
+  "attributes": {
+    "tabOneLabel": { "type": "string", "default": "Overview" },
+    "tabOnePanel": { "type": "string", "default": "Overview panel content." },
+    "tabTwoLabel": { "type": "string", "default": "Details" },
+    "tabTwoPanel": { "type": "string", "default": "Details panel content." }
+  },
   "editorScript": "file:./index.js",
   "viewScript": "file:./view.js",
   "supports": {

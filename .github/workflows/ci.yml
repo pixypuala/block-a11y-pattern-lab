@@ -34,3 +34,5 @@ jobs:
         run: pnpm typecheck
       - name: Tests (vitest + jsdom + axe)
         run: pnpm test
+      - name: Build blocks (wp-scripts)
+        run: pnpm build

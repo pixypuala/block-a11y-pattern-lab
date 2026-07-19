@@ -1,8 +1,24 @@
+import { existsSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import { dirname, resolve } from 'node:path';
 import { describe, it, expect } from 'vitest';
 import disclosure from '../blocks/disclosure/block.json';
 import tabs from '../blocks/tabs/block.json';
 import menuButton from '../blocks/menu-button/block.json';
 import dialog from '../blocks/dialog/block.json';
+
+const blocksDir = resolve(dirname(fileURLToPath(import.meta.url)), '../blocks');
+
+/**
+ * A `file:./name.js` script handle names the file `wp-scripts` emits into
+ * `build/`. Its TypeScript source lives beside the block.json under the same
+ * base name. Resolving the source (rather than the built artifact) keeps this
+ * assertion deterministic in CI, where the build has not necessarily run.
+ */
+function sourceExists(slug: string, handle: string): boolean {
+  const base = handle.replace(/^file:\.\//, '').replace(/\.js$/, '');
+  return ['tsx', 'ts'].some((ext) => existsSync(resolve(blocksDir, slug, `${base}.${ext}`)));
+}
 
 /**
  * The block.json wrappers register each pattern as a WordPress editor block.
@@ -38,6 +54,26 @@ describe('block.json metadata', () => {
 
     // Pinned schema keeps the metadata validatable against the WordPress schema.
     expect(meta.$schema).toBe('https://schemas.wp.org/trunk/block.json');
+  });
+
+  it.each(blocks)('%s editor and view handles resolve to block source', (slug, meta) => {
+    // Each `file:` handle must have a real TypeScript source that the build
+    // compiles into the referenced artifact — no dangling script references.
+    expect(sourceExists(slug, meta.editorScript as string)).toBe(true);
+    expect(sourceExists(slug, meta.viewScript as string)).toBe(true);
+  });
+
+  it.each(blocks)('%s declares editable attributes with defaults', (_slug, meta) => {
+    // The editor/save components read these attributes; each must carry a
+    // string type and a concrete default so a freshly inserted block renders.
+    const attributes = meta.attributes as Record<string, { type?: string; default?: unknown }>;
+    expect(attributes).toBeTypeOf('object');
+    const entries = Object.entries(attributes);
+    expect(entries.length).toBeGreaterThan(0);
+    for (const [, schema] of entries) {
+      expect(schema.type).toBe('string');
+      expect(typeof schema.default).toBe('string');
+    }
   });
 
   it('registers a unique namespaced name per block', () => {

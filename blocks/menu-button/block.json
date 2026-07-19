@@ -8,6 +8,12 @@
   "description": "A WAI-ARIA menu button that opens a keyboard-navigable menu of actions with roving focus.",
   "keywords": ["accessibility", "a11y", "aria", "menu", "menu button"],
   "textdomain": "block-a11y-pattern-lab",
+  "attributes": {
+    "triggerLabel": { "type": "string", "default": "Actions" },
+    "itemOne": { "type": "string", "default": "Edit" },
+    "itemTwo": { "type": "string", "default": "Duplicate" },
+    "itemThree": { "type": "string", "default": "Delete" }
+  },
   "editorScript": "file:./index.js",
   "viewScript": "file:./view.js",
   "supports": {
