@@ -6,7 +6,7 @@ Requires Node 20+ and pnpm (`corepack enable`).
 
 ```bash
 pnpm install
-pnpm test        # 55 tests: ARIA state, keyboard activation, lifecycle, axe scan, block metadata
+pnpm test        # 67 tests: ARIA state, keyboard activation, lifecycle, axe scan, block + plugin metadata
 pnpm build       # compile the four blocks to build/ (wp-scripts)
 pnpm build:lib   # emit dist/ (ESM + .d.ts) for library consumers
 ```
@@ -40,19 +40,44 @@ behaviour on the published page. `@wordpress/scripts` compiles the blocks to `bu
 `pnpm build`; the `view.ts` bundle carries the tested pattern code that enhances the saved markup.
 
 Tests cover ARIA state, click and keyboard activation, roving tabindex, focus trapping, lifecycle,
-error handling, a per-pattern axe-core WCAG A/AA scan, block-metadata validation, and coherence of
-each block's script handles and editable attributes.
+error handling, a per-pattern axe-core WCAG A/AA scan, block-metadata validation, coherence of
+each block's script handles and editable attributes, and the plugin wrapper's headers, guards, and
+directory-discovery registration.
 
 This is the extraction of the accessible-pattern work from the Accessible Frontend Design System Lab.
 
-## Documented boundary (not yet built)
+## Verified in a running WordPress
 
-The blocks compile and their runtime is wired, but they have not yet been exercised inside a running
-WordPress editor: registering them requires a thin PHP plugin wrapper (`register_block_type` per
-`build/` directory) and a live editor/frontend to confirm insertion, attribute editing, and the
-enhanced markup end to end. Additional patterns beyond the four above also remain future work.
+`block-a11y-pattern-lab.php` is the plugin wrapper: a header, an `ABSPATH` guard, and one function
+that globs `build/*/block.json` and calls `register_block_type()` on each directory. It names no
+block, so a new pattern is picked up by rebuilding rather than by editing PHP; a checkout without a
+compiled `build/` reports the problem under `WP_DEBUG` and returns instead of fataling.
 
-> **Document status:** implementation-complete engineering blueprint, not a claim that the software has already been built.
+Symlinked into a live WordPress 7.0.2 / PHP 8.2 install, the three previously unproven claims now
+have evidence — the commands and raw output are in [`docs/RUNTIME-VERIFICATION.md`](docs/RUNTIME-VERIFICATION.md):
+
+- **Insertion.** All four blocks register in `WP_Block_Type_Registry` with their editor and view
+  script handles. `/wp-admin/post-new.php?post_type=page` returns 200, all four appear in
+  `wp.blocks.getBlockType()`, and inserting all four leaves every one of them `isValid` — WordPress
+  re-parsed each block's saved markup against `save.tsx` without a validation warning. The browser
+  console carried no error or warning from this plugin.
+- **Attribute editing.** Non-default attributes (`tabOneLabel: "Shipping"`, `triggerLabel:
+  "Show shipping policy"`) serialize into the block delimiter, defaults are omitted and re-supplied
+  from `block.json`, and `do_blocks()` on the stored post renders the overridden values.
+- **Enhanced markup end to end.** The blocks were published to a real page and fetched over HTTP:
+  the served HTML is plain semantic markup with all four `viewScript` bundles enqueued, and in the
+  browser the runtime applies `role=tablist/tab/tabpanel` with reciprocal
+  `aria-selected`/`aria-controls`/`aria-labelledby` and roving tabindex; `aria-expanded` +
+  `aria-controls` on the disclosure; `aria-haspopup="menu"` + `aria-expanded` + `role=menu/menuitem`
+  on the menu button; and `role="dialog"` + `aria-modal="true"` + `aria-labelledby` on the dialog,
+  with focus moved in on open and restored to the opener on Escape.
+
+`WP_DEBUG` and `WP_DEBUG_LOG` were on throughout; `debug.log` records no notice, warning,
+deprecation, or fatal from this plugin.
+
+Still unproven: screen-reader behaviour (the assertions above read the DOM, not what NVDA, JAWS, or
+VoiceOver announces), browsers other than Chromium, multiple instances of the same block on one
+page, and any APG pattern beyond these four.
 
 A testable reference library for accessible WordPress editor and frontend interaction patterns, with honest automated and manual evidence.
 
